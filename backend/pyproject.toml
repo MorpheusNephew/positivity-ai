@@ -6,7 +6,7 @@ authors = [{ name = "Jelani Jackson" }]
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
-dependencies = ["pydantic (>=2.13.5,<3.0.0)"]
+dependencies = ["pydantic (>=2.13.5,<3.0.0)", "openai (>=3.8.0,<4.0.0)"]
 
 [project.scripts]
 positivity-ai = "positivity_ai.main:main"
