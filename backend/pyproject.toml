@@ -1,13 +1,19 @@
-[tool.poetry]
+[project]
 name = "backend"
 version = "0.1.0"
 description = "Backend for Positivity.ai"
-authors = ["Jelani Jackson"]
+authors = [{ name = "Jelani Jackson" }]
 license = "MIT"
 readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = ["pydantic (>=2.13.5,<3.0.0)"]
 
-[tool.poetry.dependencies]
-python = "^3.11"
+[project.scripts]
+positivity-ai = "positivity_ai.main:main"
+
+[tool.poetry]
+packages = [{ include = "positivity_ai", from = "src" }]
+include = [{ path = "src/positivity_ai/prompts/*.md", format = ["sdist", "wheel"] }]
 
 
 [build-system]
