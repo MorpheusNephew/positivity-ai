@@ -4,9 +4,5 @@
 class GenerationException(Exception):
     """A normalized technical failure returned by a model provider."""
 
-    #: HTTP status code returned by the provider, when one is available.
-    status_code: int
-    #: Provider-defined status or error code.
-    status: str
-    #: Human-readable description of the provider failure.
-    message: str
+    def __init__(self, message):
+        super().__init__(message)
