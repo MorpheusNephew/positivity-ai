@@ -1,6 +1,9 @@
 """Command-line entry point for experimenting with Positivity AI."""
 
 from positivity_ai.adapters import OpenAIAdapter
+from positivity_ai.generation import GenerationRequest, Message
+
+stored_messages: list[Message] = []
 
 
 def main() -> None:
@@ -23,6 +26,21 @@ def main() -> None:
         first_mini = [model for model in openai_models_list if "mini" in model][0]
 
         print(first_mini)
+
+        new_message = Message(role="user", content=selection)
+
+        stored_messages.append(new_message)
+
+        response = openai_adapter.generate(
+            GenerationRequest(
+                provider="openai",
+                model=first_mini,
+                messages=stored_messages,
+                system_prompt="Think nicely",
+            )
+        )
+
+        print(response)
 
 
 if __name__ == "__main__":
