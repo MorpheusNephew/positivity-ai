@@ -36,9 +36,9 @@ class OpenAIAdapter:
     #: Client used to send provider-specific requests to OpenAI.
     openai_client: OpenAIClient
 
-    def __init__(self):
+    def __init__(self, api_key: str = None):
         """Create an adapter with an OpenAI SDK client."""
-        self.openai_client = OpenAIClient()
+        self.openai_client = OpenAIClient(api_key)
 
     def get_models_list(self) -> list[str]:
         """Return accessible OpenAI text-generation models supported by this app."""
@@ -54,6 +54,10 @@ class OpenAIAdapter:
         The response validates the provider-neutral adapter contract but does not
         yet send ``request`` to OpenAI.
         """
+
+        response = self.openai_client.create_response(request)
+
+        print(response)
 
         return GenerationResponse(
             provider="OpenAI",
