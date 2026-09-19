@@ -1,8 +1,21 @@
 """Thin wrapper around the OpenAI Python SDK."""
 
-from openai import OpenAI
+from openai import (
+    OpenAI,
+    APIConnectionError,
+    APITimeoutError,
+    AuthenticationError,
+    BadRequestError,
+    ConflictError,
+    InternalServerError,
+    NotFoundError,
+    PermissionDeniedError,
+    RateLimitError,
+    UnprocessableEntityError,
+)
+from os import getenv
 
-from positivity_ai.generation import GenerationRequest
+from positivity_ai.generation import GenerationRequest, GenerationException
 
 
 class OpenAIClient:
@@ -11,9 +24,12 @@ class OpenAIClient:
     #: Configured OpenAI SDK client.
     client: OpenAI
 
-    def __init__(self):
+    def __init__(self, api_key: str = None):
         """Create an OpenAI SDK client using the configured environment credentials."""
-        self.client = OpenAI()
+
+        api_key = api_key if api_key else getenv("OPENAI_API_KEY")
+
+        self.client = OpenAI(api_key=api_key)
 
     def get_models_list(self) -> list[str]:
         """Return model IDs visible to the configured OpenAI credential."""
@@ -23,10 +39,29 @@ class OpenAIClient:
 
         return list_of_models
 
-    def create_response(self, request: GenerationRequest) -> None:
+    def create_response(self, request: GenerationRequest):
         """Placeholder for translating ``request`` into an OpenAI response call.
 
         The request is not yet translated into SDK parameters.
         """
-        self.client.responses.create()
-        pass
+        try:
+
+            return self.client.responses.create(
+                input=request.messages,
+                model=request.model,
+                instructions=request.system_prompt,
+            )
+
+        except (
+            APIConnectionError,
+            APITimeoutError,
+            AuthenticationError,
+            BadRequestError,
+            ConflictError,
+            InternalServerError,
+            NotFoundError,
+            PermissionDeniedError,
+            RateLimitError,
+            UnprocessableEntityError,
+        ) as error:
+            raise GenerationException(str(error)) from error
