@@ -8,7 +8,7 @@ from positivity_ai.generation import (
     AssistantMessage,
 )
 
-from .client import OpenAIClient
+from positivity_ai.clients.openai import OpenAIClient
 
 
 class OpenAIAdapter:

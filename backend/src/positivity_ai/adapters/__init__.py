@@ -1,5 +1,5 @@
 """Provider-specific model adapters."""
 
-from .openai_adapter import OpenAIAdapter
+from .openai import OpenAIAdapter
 
 __all__ = ["OpenAIAdapter"]
