@@ -8,16 +8,19 @@ application end to end.
 
 ## Current status
 
-The project is in its initial setup stage. The backend is a Python 3.11 project.
+The backend is a Python 3.11 learning project with provider-neutral generation
+contracts and a shared client protocol. It currently includes OpenAI and Gemini
+adapter/client implementations. The interactive CLI uses OpenAI, and adapters
+still return a temporary normalized response while raw provider-response
+translation is being completed.
 
 ## Learning roadmap
 
-1. Make a direct Python request to an AI model and inspect its response.
-2. Learn to manage API keys, environment variables, model settings, and cost.
+1. Finish translating raw provider responses into reliable, structured output.
+2. Compare provider behavior, model settings, API keys, and cost.
 3. Design and evaluate positivity-oriented prompts.
-4. Return reliable, structured model output and handle failures.
-5. Add safety boundaries appropriate for a wellbeing-oriented application.
-6. Wrap the model interaction in a web API, then add a simple user interface and tests.
+4. Add safety boundaries appropriate for a wellbeing-oriented application.
+5. Wrap the model interaction in a web API, then add a simple user interface and tests.
 
 ## Project notes
 

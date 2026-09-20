@@ -8,7 +8,8 @@ encouraging, thoughtful responses.
 
 ```text
 src/positivity_ai/
-  adapters/    Provider-specific integrations, beginning with OpenAI
+  adapters/    Provider-specific integrations for OpenAI and Gemini
+  clients/     Provider SDK wrappers behind a shared client protocol
   generation/  Provider-neutral request, response, and error contracts
   prompts/     Versioned model instructions
 ```
@@ -29,6 +30,7 @@ poetry run positivity-ai
 
 ## Current scope
 
-The backend currently defines the initial package structure and a first
-positivity prompt. The next milestone is making a direct model call through
-the OpenAI adapter.
+The backend can send requests through OpenAI and Gemini provider clients. The
+interactive CLI currently uses OpenAI. Adapters still return a temporary
+`GenerationResponse`; the next milestone is translating each provider's raw
+response into the provider-neutral response contract.
