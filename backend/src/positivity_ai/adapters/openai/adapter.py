@@ -64,7 +64,7 @@ class OpenAIAdapter:
         print(response)
 
         return GenerationResponse(
-            provider="OpenAI",
+            provider=self.client.provider,
             model="some random model",
             message=AssistantMessage(content="Here's some magical stuff"),
             total_tokens=7,

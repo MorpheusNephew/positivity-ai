@@ -13,7 +13,6 @@ from openai import (
     RateLimitError,
     UnprocessableEntityError,
 )
-from os import getenv
 
 from positivity_ai.generation import GenerationRequest, GenerationException
 
@@ -28,6 +27,11 @@ class OpenAIClient:
         """Wrap an initialized OpenAI SDK client."""
 
         self.client = client
+
+    @property
+    def provider(self) -> str:
+        """Return OpenAI's identifier for normalized responses."""
+        return "openai"
 
     def get_models_list(self) -> list[str]:
         """Return model IDs visible to the configured OpenAI credential."""
@@ -59,4 +63,5 @@ class OpenAIClient:
             RateLimitError,
             UnprocessableEntityError,
         ) as error:
+            # Keep the SDK traceback available while exposing an app-level error.
             raise GenerationException(str(error)) from error
