@@ -25,8 +25,6 @@ def main() -> None:
 
         first_mini = [model for model in openai_models_list if "mini" in model][0]
 
-        print(first_mini)
-
         new_message = Message(role="user", content=selection)
 
         stored_messages.append(new_message)
