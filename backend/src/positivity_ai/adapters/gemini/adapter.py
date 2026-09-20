@@ -7,6 +7,7 @@ from google.genai import Client as GenAIClient
 
 from positivity_ai.clients.google_genai import GoogleGenAIClient
 from positivity_ai.clients.model_client import ModelClient
+from positivity_ai.generation import GenerationException
 from positivity_ai.generation.types import (
     AssistantMessage,
     GenerationRequest,
@@ -63,15 +64,17 @@ class GeminiAdapter:
         ]
 
     def generate(self, request: GenerationRequest) -> GenerationResponse:
-        """Send ``request`` to Gemini and return a temporary normalized response."""
+        """Send ``request`` to Gemini and normalize its text response."""
 
         response = self.client.create_response(request)
 
-        print(response)
+        # The provider-neutral response contract currently supports text only.
+        if response.output_text is None:
+            raise GenerationException("Gemini returned no text output.")
 
         return GenerationResponse(
             provider=self.client.provider,
-            model="some random model",
-            message=AssistantMessage(content="Here's some magical stuff"),
-            total_tokens=7,
+            model=response.model or request.model,
+            message=AssistantMessage(content=response.output_text),
+            total_tokens=response.usage.total_tokens,
         )
