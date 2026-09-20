@@ -4,6 +4,7 @@ from os import getenv
 from typing import ClassVar
 
 from openai import OpenAI
+from positivity_ai.clients.model_client import ModelClient
 from positivity_ai.generation import (
     GenerationRequest,
     GenerationResponse,
@@ -36,33 +37,29 @@ class OpenAIAdapter:
     )
 
     #: Client used to send provider-specific requests to OpenAI.
-    openai_client: OpenAIClient
+    client: ModelClient
 
     def __init__(self, api_key: str = None):
         """Create an adapter with an OpenAI SDK client."""
-        
+
         api_key = api_key if api_key else getenv("OPENAI_API_KEY")
-        
+
         client = OpenAI(api_key=api_key)
-        
-        self.openai_client = OpenAIClient(client)
+
+        self.client = OpenAIClient(client)
 
     def get_models_list(self) -> list[str]:
         """Return accessible OpenAI text-generation models supported by this app."""
-        available_models = self.openai_client.get_models_list()
+        available_models = self.client.get_models_list()
 
         return [
             model for model in available_models if model in self.SUPPORTED_TEXT_MODELS
         ]
 
     def generate(self, request: GenerationRequest) -> GenerationResponse:
-        """Return a temporary response while the OpenAI integration is being built.
+        """Send ``request`` to OpenAI and return a temporary normalized response."""
 
-        The response validates the provider-neutral adapter contract but does not
-        yet send ``request`` to OpenAI.
-        """
-
-        response = self.openai_client.create_response(request)
+        response = self.client.create_response(request)
 
         print(response)
 
