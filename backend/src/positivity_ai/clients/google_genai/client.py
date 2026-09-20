@@ -27,7 +27,9 @@ class GoogleGenAIClient:
         """Return model IDs visible to the configured Google credential."""
         list_of_models = self.client.models.list()
 
-        return [model.base_model_id for model in list_of_models]
+        # Google returns resource names such as ``models/gemini-3.1-flash-lite``;
+        # adapters use the shorter identifier accepted by generation requests.
+        return [model.name.split("/")[1] for model in list_of_models]
 
     def create_response(self, request: GenerationRequest):
         """Translate ``request`` into a Gemini Interactions API call."""
