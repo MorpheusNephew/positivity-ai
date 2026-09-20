@@ -25,7 +25,7 @@ class OpenAIClient:
     client: OpenAI
 
     def __init__(self, client: OpenAI):
-        """Create an OpenAI SDK client using the configured environment credentials."""
+        """Wrap an initialized OpenAI SDK client."""
 
         self.client = client
 
@@ -38,10 +38,7 @@ class OpenAIClient:
         return list_of_models
 
     def create_response(self, request: GenerationRequest):
-        """Placeholder for translating ``request`` into an OpenAI response call.
-
-        The request is not yet translated into SDK parameters.
-        """
+        """Translate ``request`` into an OpenAI Responses API call."""
         try:
 
             return self.client.responses.create(
