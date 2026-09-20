@@ -24,12 +24,10 @@ class OpenAIClient:
     #: Configured OpenAI SDK client.
     client: OpenAI
 
-    def __init__(self, api_key: str = None):
+    def __init__(self, client: OpenAI):
         """Create an OpenAI SDK client using the configured environment credentials."""
 
-        api_key = api_key if api_key else getenv("OPENAI_API_KEY")
-
-        self.client = OpenAI(api_key=api_key)
+        self.client = client
 
     def get_models_list(self) -> list[str]:
         """Return model IDs visible to the configured OpenAI credential."""
