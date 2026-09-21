@@ -1,17 +1,14 @@
 """OpenAI implementation of the model adapter contract."""
 
-from os import getenv
 from typing import ClassVar
 
-from openai import OpenAI
+from positivity_ai.clients.manager import ClientManager, ClientName
 from positivity_ai.clients.model_client import ModelClient
-from positivity_ai.generation import (
+from positivity_ai.generation.types import (
     GenerationRequest,
     GenerationResponse,
     AssistantMessage,
 )
-
-from positivity_ai.clients.openai import OpenAIClient
 
 
 class OpenAIAdapter:
@@ -39,14 +36,13 @@ class OpenAIAdapter:
     #: Client used to send provider-specific requests to OpenAI.
     client: ModelClient
 
+    #: Concrete client implementation used behind this provider adapter.
+    CLIENT_NAME: ClassVar[ClientName] = "openai"
+
     def __init__(self, api_key: str = None):
-        """Create an adapter with an OpenAI SDK client."""
+        """Create an adapter using its configured OpenAI client implementation."""
 
-        api_key = api_key if api_key else getenv("OPENAI_API_KEY")
-
-        client = OpenAI(api_key=api_key)
-
-        self.client = OpenAIClient(client)
+        self.client = ClientManager.get_client(self.CLIENT_NAME, api_key)
 
     def get_models_list(self) -> list[str]:
         """Return accessible OpenAI text-generation models supported by this app."""

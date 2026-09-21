@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from positivity_ai.generation import GenerationRequest, GenerationResponse
+from positivity_ai.generation.types import GenerationRequest, GenerationResponse
 
 
 class ModelAdapter(Protocol):

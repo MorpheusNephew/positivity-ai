@@ -1,6 +1,8 @@
 """Select registered adapter classes by provider identifier."""
 
-from positivity_ai.adapters import GeminiAdapter, ModelAdapter, OpenAIAdapter
+from positivity_ai.adapters.gemini.adapter import GeminiAdapter
+from positivity_ai.adapters.model_adapter import ModelAdapter
+from positivity_ai.adapters.openai.adapter import OpenAIAdapter
 
 
 class AdapterManager:

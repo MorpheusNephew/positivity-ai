@@ -3,7 +3,7 @@
 from importlib.resources import files
 
 from positivity_ai.adapters.manager import AdapterManager
-from positivity_ai.generation import GenerationRequest, Message
+from positivity_ai.generation.types import GenerationRequest, Message
 
 # Conversation history retained across turns of the interactive CLI session.
 stored_messages: list[Message] = []

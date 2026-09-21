@@ -14,7 +14,8 @@ from openai import (
     UnprocessableEntityError,
 )
 
-from positivity_ai.generation import GenerationRequest, GenerationException
+from positivity_ai.generation.errors import GenerationException
+from positivity_ai.generation.types import GenerationRequest
 
 
 class OpenAIClient:

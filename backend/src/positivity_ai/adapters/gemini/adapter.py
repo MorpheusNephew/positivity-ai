@@ -1,13 +1,10 @@
 """Gemini implementation of the model adapter contract."""
 
-from os import getenv
 from typing import ClassVar
 
-from google.genai import Client as GenAIClient
-
-from positivity_ai.clients.google_genai import GoogleGenAIClient
+from positivity_ai.clients.manager import ClientManager, ClientName
 from positivity_ai.clients.model_client import ModelClient
-from positivity_ai.generation import GenerationException
+from positivity_ai.generation.errors import GenerationException
 from positivity_ai.generation.types import (
     AssistantMessage,
     GenerationRequest,
@@ -47,13 +44,13 @@ class GeminiAdapter:
     #: Client used to send provider-specific requests to Gemini.
     client: ModelClient
 
+    #: Concrete client implementation used behind this provider adapter.
+    CLIENT_NAME: ClassVar[ClientName] = "google_genai"
+
     def __init__(self, api_key: str = None):
-        """Create an adapter with a Google Gen AI SDK client."""
-        api_key = api_key if api_key else getenv("GEMINI_API_KEY")
+        """Create an adapter using its configured Google Gen AI client implementation."""
 
-        client = GenAIClient(api_key=api_key)
-
-        self.client = GoogleGenAIClient(client)
+        self.client = ClientManager.get_client(self.CLIENT_NAME, api_key)
 
     def get_models_list(self) -> list[str]:
         """Return text-generation model IDs eligible for use with this adapter."""

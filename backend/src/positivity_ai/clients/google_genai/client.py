@@ -3,7 +3,7 @@
 from google.genai import Client as GenAIClient
 from google.genai.errors import APIError
 
-from positivity_ai.generation import GenerationException
+from positivity_ai.generation.errors import GenerationException
 from positivity_ai.generation.types import GenerationRequest
 
 
