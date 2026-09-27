@@ -19,3 +19,8 @@ include = [{ path = "src/positivity_ai/prompts/*.md", format = ["sdist", "wheel"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.1.1,<10.0.0)"
+]
