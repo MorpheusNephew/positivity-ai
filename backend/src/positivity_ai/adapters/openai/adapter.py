@@ -4,6 +4,7 @@ from typing import ClassVar
 
 from positivity_ai.clients.manager import ClientManager, ClientName
 from positivity_ai.clients.model_client import ModelClient
+from positivity_ai.generation.errors import GenerationException
 from positivity_ai.generation.types import (
     GenerationRequest,
     GenerationResponse,
@@ -53,15 +54,17 @@ class OpenAIAdapter:
         ]
 
     def generate(self, request: GenerationRequest) -> GenerationResponse:
-        """Send ``request`` to OpenAI and return a temporary normalized response."""
+        """Send ``request`` to OpenAI and normalize its text response."""
 
         response = self.client.create_response(request)
 
-        print(response)
+        # ``output_text`` is the OpenAI SDK's aggregate of all text output items.
+        if response.output_text is None:
+            raise GenerationException("OpenAI returned no text output.")
 
         return GenerationResponse(
             provider=self.client.provider,
-            model="some random model",
-            message=AssistantMessage(content="Here's some magical stuff"),
-            total_tokens=7,
+            model=response.model or request.model,
+            message=AssistantMessage(content=response.output_text),
+            total_tokens=response.usage.total_tokens,
         )
