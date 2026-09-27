@@ -17,3 +17,11 @@ as Gemini. This lets me leverage AI for the repetitive translation work without
 skipping the architectural understanding. I should still compare the generated
 code against the blueprint, understand provider-specific differences, and test
 the result before relying on it.
+
+### 2026-09-28 — Use pytest to test provider boundaries without live API calls
+
+I chose pytest for the first backend test suite because its fixtures and plain
+assertions keep unit tests concise as provider coverage grows. The tests inject
+mocked SDK-shaped clients at the adapter and client boundaries, which lets them
+verify request translation, normalized responses, error handling, and registry
+selection without API keys, network access, or usage cost.

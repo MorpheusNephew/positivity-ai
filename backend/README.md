@@ -9,7 +9,7 @@ encouraging, thoughtful responses.
 ```text
 src/positivity_ai/
   adapters/    Provider-specific integrations for OpenAI and Gemini
-  clients/     Provider SDK wrappers behind a shared client protocol
+  clients/     Provider SDK wrappers and the shared client-factory registry
   generation/  Provider-neutral request, response, and error contracts
   prompts/     Versioned model instructions
 ```
@@ -28,9 +28,20 @@ Run the current entry point:
 poetry run positivity-ai
 ```
 
+Run the unit tests:
+
+```bash
+poetry run pytest -q
+```
+
 ## Current scope
 
 The backend can send requests through OpenAI and Gemini provider clients. The
-interactive CLI currently uses OpenAI. Adapters still return a temporary
-`GenerationResponse`; the next milestone is translating each provider's raw
-response into the provider-neutral response contract.
+interactive CLI lets users select an available provider and model. Each adapter
+normalizes its provider response into a `GenerationResponse` containing the
+provider, model, assistant text, and total token count.
+
+`ClientManager` centralizes provider SDK construction and reads
+`OPENAI_API_KEY` or `GEMINI_API_KEY` when an adapter is created without an
+explicit API key. The pytest suite uses mocks, so its 17 unit tests run without
+provider credentials or live API calls.

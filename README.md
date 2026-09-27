@@ -9,18 +9,19 @@ application end to end.
 ## Current status
 
 The backend is a Python 3.11 learning project with provider-neutral generation
-contracts and a shared client protocol. It currently includes OpenAI and Gemini
-adapter/client implementations. The interactive CLI uses OpenAI, and adapters
-still return a temporary normalized response while raw provider-response
-translation is being completed.
+contracts, provider adapters, and SDK client wrappers for OpenAI and Gemini.
+The interactive CLI lets a user select an available provider and model. Each
+adapter returns a normalized response containing the provider, model, text, and
+total token count. Client construction and API-key lookup are centralized in a
+shared client-factory registry.
 
 ## Learning roadmap
 
-1. Finish translating raw provider responses into reliable, structured output.
-2. Compare provider behavior, model settings, API keys, and cost.
-3. Design and evaluate positivity-oriented prompts.
-4. Add safety boundaries appropriate for a wellbeing-oriented application.
-5. Wrap the model interaction in a web API, then add a simple user interface and tests.
+1. Compare provider behavior, model settings, API keys, and cost.
+2. Design and evaluate positivity-oriented prompts.
+3. Add safety boundaries appropriate for a wellbeing-oriented application.
+4. Wrap the model interaction in a web API, then add a simple user interface.
+5. Expand unit coverage and add continuous integration.
 
 ## Project notes
 
