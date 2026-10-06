@@ -1,4 +1,4 @@
-# positivity-ai
+# Positivity AI
 
 An application that uses AI to provide encouraging, thoughtful responses to user prompts.
 
